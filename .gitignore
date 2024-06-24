@@ -1,6 +1,7 @@
 # My files
 samples/
 build-*
+.DS_Store
 
 # Prerequisites
 *.d
