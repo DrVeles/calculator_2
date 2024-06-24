@@ -1,6 +1,6 @@
 # My files
-
 samples/
+build-*
 
 # Prerequisites
 *.d

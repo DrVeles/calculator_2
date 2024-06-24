@@ -7,6 +7,7 @@
     - Calculatig Polish notation
 
 - Correcting View using OOP 
+    - Fix CMAKE to make from other directories   
 
 - Controller using OOP
 
