@@ -10,3 +10,8 @@
 
 - Controller using OOP
 
+## Additional 
+
+`leaks -atExit -- ./main.out | grep LEAK:`
+
+`valgrind --tool=memcheck --leak-check=yes ./main.out`
