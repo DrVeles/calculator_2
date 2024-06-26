@@ -3,9 +3,43 @@
 
 #include <cmath>
 #include <iostream>
+#include <stack>
 #include <string>
+// using std
 
 namespace s21 {
+// result of working foo
+enum class result { success, failure };
+
+// node for stack
+class node_t {
+  private:
+  // clear
+ public:
+  int _math_foo;
+  // (, ), -, +, *, /, ^, %
+  char _operators;
+  bool _is_unary;
+  int _priority;
+  long double _value;
+
+  node_t();
+  node_t(long double value);
+  node_t(const node_t& other);
+  ~node_t();
+
+  int is_number(const node_t &node);
+
+};
+
+class counter {
+  int _count;
+
+ public:
+  counter() : _count() {}
+  int count() const { return _count; }
+  void inc() { ++_count; }
+};
 
 class model {
  private:
@@ -33,81 +67,36 @@ class model {
     log_foo
   };
 
-  /* data */
  public:
-  model(/* args */);
+  model();
   ~model();
-};  // class model
 
+  /**
+   * @brief func to calculate polish notation
+   * @param polish reverse polish notation to calculate
+   * @param result result of calculations
+   * @return `0` - success
+   * @return `1` - error
+   */
+  int calculations(std::stack<s21::node_t>* polish, long double* result);
+
+  /**
+   * @brief foo checking string to correct input
+   * @param str - string to check
+   * @return `0` - if string correct
+   * @return `1` - if string incorrect
+   */
+  int validate_string(char* str);
+
+  /**
+   * @brief foo converts to reverse polish notation
+   * @param str - string to convert
+   * @param polish - polish notation stack
+   * @return `0` - if convert success
+   * @return `1` - if convert failed
+   */
+  int converting_to_polish(char* str, std::stack<s21::node_t>* polish);
+};  // class model
 }  // namespace s21
 
 #endif  //_CALC_MODEL_H_
-
-// #define STACK_SIZE 255
-
-// result of working foo
-// typedef enum result { success, failure } result_e;
-
-// // node of stack
-// typedef struct {
-//   int math_foo;
-//   // (, ), -, +, *, /, ^, %
-//   char operators;
-//   bool is_unary;
-//   int priority;
-//   long double value;
-// } s21_node_t;
-
-// // stack array and top of array
-// typedef struct {
-//   int top;
-//   s21_node_t array[STACK_SIZE];
-// } s21_stack_t;
-
-// // foo to validate node is number? return: true or false
-// bool is_number(s21_node_t *node);
-
-// // pushing node to top of stack
-// int push(s21_stack_t *stack, s21_node_t *node);
-
-// // take node from top of stack
-// int pop(s21_stack_t *stack, s21_node_t *node);
-
-// // only show last node
-// int show(s21_stack_t *stack, s21_node_t *node);
-
-// // clearing node
-// void clear_node(s21_node_t *node);
-
-// // clearing stack
-// void clear_stack(s21_stack_t *stack);
-
-// /**
-//  * @brief func to calculate polish notation
-//  * @param polish reverse polish notation to calculate
-//  * @param result result of calculations
-//  * @return `0` - success
-//  * @return `1` - error
-//  */
-// int calculations(s21_stack_t* polish, long double* result);
-
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
-
-// /**
-//  * @brief foo checking string to correct input
-//  * @param str - string to check
-//  * @return `0` - if string correct
-//  * @return `1` - if string incorrect
-//  */
-// int validate_string(char* str);
-
-// /**
-//  * @brief foo converts to reverse polish notation
-//  * @param str - string to convert
-//  * @param polish - polish notation stack
-//  * @return `0` - if convert success
-//  * @return `1` - if convert failed
-//  */
-// int converting_to_polish(char* str, s21_stack_t* polish);

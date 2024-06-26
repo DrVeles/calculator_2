@@ -36,11 +36,11 @@ dist: clean
 # 	@rm -rf SmartCalc_v1.0/
 
 test: clean google_format
-	$(CC) $(CC_FLAGS) ./model/model.cpp
+	$(CC) $(CC_FLAGS) ./model/model.cpp -o a.out
 	./a.out
 
 leaks: test
-	CK_FORK=no leaks -atExit -q -- ./tests/test_all 
+	CK_FORK=no leaks -atExit -q -- ./a.out
 
 google_format:
 	-@clang-format -style=Google -i */*.h */*.cpp
