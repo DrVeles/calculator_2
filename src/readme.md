@@ -2,6 +2,8 @@
 
 ## TO DO
 
+- Makefile check to all targets.
+
 - Model using OOP
     - Converting to Polish notation
     - Calculatig Polish notation

@@ -3,6 +3,7 @@ samples/
 build-*
 .DS_Store
 build/
+.vscode/
 
 # Prerequisites
 *.d

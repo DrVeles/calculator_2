@@ -2,6 +2,8 @@ CC = g++
 CC_FLAGS = -Wall -Wextra -Werror -std=c++17
 # CC_TEST_FLAGS = -lgtest --coverage 
 
+#  all, install, uninstall, clean, dvi, dist, tests
+
 all: install
 
 install: uninstall
@@ -19,13 +21,23 @@ uninstall: clean
 	@echo "===========> UNINSATLLED <============"
 	@echo "======================================"
 
-dvi:
-	$(OPEN_COMAND) ../README.md
-
 clean: 
 	-@rm -rf a.out
 
-# rt: clean test
+dvi:
+	$(OPEN_COMAND) ../README.md
+
+dist: clean
+# 	@mkdir SmartCalc_v1.0
+# 	@mkdir SmartCalc_v1.0/src
+# 	@cp -r front functions tests Makefile s21_calc_controller.* SmartCalc_v1.0/src/
+# 	@cp ../README.md SmartCalc_v1.0/
+# 	@tar -cf SmartCalc_v1.0.tar SmartCalc_v1.0 
+# 	@rm -rf SmartCalc_v1.0/
+
+test: clean google_format
+	$(CC) $(CC_FLAGS) ./model/model.cpp
+	./a.out
 
 leaks: test
 	CK_FORK=no leaks -atExit -q -- ./tests/test_all 
