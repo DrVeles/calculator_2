@@ -4,16 +4,20 @@
 
 ✅ Makefile check to all targets.
 
-- Controller using OOP
+✅ Controller using OOP
 
 - Model using OOP
-    - Converting to Polish notation
+    ✅ Converting to Polish notation
     - Calculatig Polish notation
 
+- TESTS
+    - Controller 
+    - Model
 
 - Correcting View using OOP 
-    - Fix CMAKE to make from other directories   
-
+    - Make namespace s21 in view ?
+    - CHANGE FRONTEND DESIGN
+    ✅ Fix CMAKE to make from other directories   
 
 ## Additional 
 

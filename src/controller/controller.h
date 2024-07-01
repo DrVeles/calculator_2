@@ -6,7 +6,7 @@
 #include "./../model/model.h"
 
 namespace s21 {
-class controller {
+class Controller {
  public:
   /**
    * @brief func to send string from front to backend and calculate result
@@ -16,7 +16,7 @@ class controller {
    * @return `1` - failure
    */
   int api_to_calculate(const std::string input_str, long double* result) {
-    return model().calculate_str(input_str, result);
+    return Model().calculate_str(input_str, result);
   }
 
   /**
@@ -26,7 +26,7 @@ class controller {
    * @return `1` - failure
    */
   int api_to_validate(const std::string input_str) {
-    return model().validate_string(input_str);
+    return Model().validate_string(input_str);
   }
 };
 

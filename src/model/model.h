@@ -1,5 +1,5 @@
-#ifndef _CALC_MODEL_H_
-#define _CALC_MODEL_H_
+#ifndef _CALC_Model_H_
+#define _CALC_Model_H_
 
 #include <cmath>
 #include <iostream>
@@ -7,40 +7,12 @@
 #include <string>
 
 namespace s21 {
-// result of working foo
-enum class result { success, failure };
-
 // node for stack
-class node_t {
+class PolishNode {
  private:
-  // clear
- public:
-  int _math_foo;
-  // (, ), -, +, *, /, ^, %
-  char _operators;
-  bool _is_unary;
-  int _priority;
-  long double _value;
-
-  node_t();
-  node_t(long double value);
-  node_t(const node_t& other);
-  ~node_t();
-
-  int is_number(const node_t& node);
-};
-
-class counter {
-  int _count;
+  void clear_node();
 
  public:
-  counter() : _count() {}
-  int count() const { return _count; }
-  void inc() { ++_count; }
-};
-
-class model {
- private:
   /**
   operation priority:
   0 - x, n
@@ -49,10 +21,10 @@ class model {
   3 - brackets, pow, unary plus, unary minus
   4 - sin, cos, tan, asin, acos, atan, sqrt, ln, log
   */
-  enum class priority { zero, first, second, third, fourt };
+  enum class Priority { zero, first, second, third, fourt };
 
   // enum for math functions
-  enum class multi_character {
+  enum class MathFuncs {
     not_foo,
     sin_foo,
     cos_foo,
@@ -65,9 +37,44 @@ class model {
     log_foo
   };
 
+  MathFuncs _math_foo;
+  // (, ), -, +, *, /, ^, %
+  char _operators;
+  bool _is_unary;
+  Priority _priority;
+  long double _value;
+
+  PolishNode();
+  PolishNode(long double value);
+  PolishNode(const PolishNode& other);
+  PolishNode& operator=(const PolishNode& other);
+};
+
+// class for backend calculations
+class Model {
+ private:
+  // subfoo to converting_to_polish
+  size_t parse_numbers(std::string str, size_t i, size_t lenth_of_str,
+                       PolishNode* temp_node);
+  // subfoo to converting_to_polish
+
+  size_t parse_brackets_funcs(std::string str, size_t i, PolishNode* temp_node);
+  // subfoo to converting_to_polish
+  void parse_operators(std::string str, size_t i, PolishNode* temp_node,
+                       std::stack<s21::PolishNode>* temp_polish,
+                       std::stack<s21::PolishNode>* temp_stack);
+  // subfoo to converting_to_polish
+  void parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
+                            std::stack<s21::PolishNode>* temp_stack);
+
  public:
-  model();
-  ~model();
+  /**
+   * @brief foo checking string to correct input
+   * @param str - string to check
+   * @return `0` - if string correct
+   * @return `1` - if string incorrect
+   */
+  int validate_string(std::string str);
 
   /**
    * @brief func to full calculation from str
@@ -85,15 +92,7 @@ class model {
    * @return `0` - success
    * @return `1` - error
    */
-  int calculations(std::stack<s21::node_t>* polish, long double* result);
-
-  /**
-   * @brief foo checking string to correct input
-   * @param str - string to check
-   * @return `0` - if string correct
-   * @return `1` - if string incorrect
-   */
-  int validate_string(std::string str);
+  int calculations(std::stack<s21::PolishNode>* polish, long double* result);
 
   /**
    * @brief foo converts to reverse polish notation
@@ -102,8 +101,9 @@ class model {
    * @return `0` - if convert success
    * @return `1` - if convert failed
    */
-  int converting_to_polish(char* str, std::stack<s21::node_t>* polish);
-};  // class model
+  int converting_to_polish(std::string str,
+                           std::stack<s21::PolishNode>* polish);
+};  // class Model
 }  // namespace s21
 
-#endif  //_CALC_MODEL_H_
+#endif  //_CALC_Model_H_

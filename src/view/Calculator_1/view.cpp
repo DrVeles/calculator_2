@@ -242,7 +242,7 @@ void view::click_to_result() {
   } else {
     text = "(" + text + ")";
     std::string str = text.toStdString();
-    is_print_err = (s21::controller().api_to_calculate(str, &res));
+    is_print_err = (s21::Controller().api_to_calculate(str, &res));
   }
 
   if (is_print_err) {
@@ -260,7 +260,7 @@ double view::convert_x_to_y(double x, QString text) {
   text.replace("x", '(' + x_str + ')');
   text = "(" + text + ")";
   std::string str = text.toStdString();
-  s21::controller().api_to_calculate(str, &y);
+  s21::Controller().api_to_calculate(str, &y);
   return (double)y;
 }
 
@@ -278,7 +278,7 @@ void view::on_pushButton_create_graph_clicked() {
     text_to_valid.replace("x", '(' + x_text + ')');
     std::string str = text_to_valid.toStdString();
     // const char *cstr = str.c_str();
-    if (!s21::controller().api_to_validate(str)) {
+    if (!s21::Controller().api_to_validate(str)) {
       if (!x_text.isEmpty()) {
         x_value = x_text.toDouble(&is_print);
       }
