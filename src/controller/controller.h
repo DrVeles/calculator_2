@@ -16,8 +16,7 @@ class controller {
    * @return `1` - failure
    */
   int api_to_calculate(const std::string input_str, long double* result) {
-    model m;
-    return m.calculate_str(input_str, result);
+    return model().calculate_str(input_str, result);
   }
 
   /**
@@ -27,8 +26,7 @@ class controller {
    * @return `1` - failure
    */
   int api_to_validate(const std::string input_str) {
-    model m;
-    return m.validate_string(input_str);
+    return model().validate_string(input_str);
   }
 };
 

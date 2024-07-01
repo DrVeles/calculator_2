@@ -2,8 +2,6 @@ CC = g++
 CC_FLAGS = -Wall -Wextra -Werror -std=c++17
 # CC_TEST_FLAGS = -lgtest --coverage 
 
-#  all, install, uninstall, clean, dvi, dist, tests
-
 all: install
 
 install: uninstall
@@ -28,20 +26,20 @@ dvi:
 	$(OPEN_COMAND) ../README.md
 
 dist: clean
-# 	@mkdir SmartCalc_v1.0
-# 	@mkdir SmartCalc_v1.0/src
-# 	@cp -r front functions tests Makefile s21_calc_controller.* SmartCalc_v1.0/src/
-# 	@cp ../README.md SmartCalc_v1.0/
-# 	@tar -cf SmartCalc_v1.0.tar SmartCalc_v1.0 
-# 	@rm -rf SmartCalc_v1.0/
+	@mkdir SmartCalc_v2.0
+	@mkdir SmartCalc_v2.0/src
+	@cp -r front functions tests Makefile s21_calc_controller.* SmartCalc_v2.0/src/
+	@cp ../README.md SmartCalc_v2.0/
+	@tar -cf SmartCalc_v2.0.tar SmartCalc_v2.0 
+	@rm -rf SmartCalc_v2.0/
 
 test: clean google_format
-	$(CC) $(CC_FLAGS) ./model/model.cpp -o a.out
+	$(CC) $(CC_FLAGS) ./tests/tests.cpp ./model/model.cpp -o a.out
 	./a.out
 
 leaks: test
 	CK_FORK=no leaks -atExit -q -- ./a.out
 
 google_format:
-	-@clang-format -style=Google -i */*.h */*.cpp
+	-@clang-format -style=Google -i */*.h */*.cpp */*/*.h */*/*.cpp
 	@echo "===========> FORMATTED <============"

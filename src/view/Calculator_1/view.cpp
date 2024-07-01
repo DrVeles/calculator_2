@@ -2,10 +2,9 @@
 
 #include "./ui_view.h"
 
-view::view(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::view) {
-   ui->setupUi(this);
-  setWindowTitle("Calculator by Vasiliy");
+view::view(QWidget *parent) : QMainWindow(parent), ui(new Ui::view) {
+  ui->setupUi(this);
+  setWindowTitle("Calculator by Vasilii");
   setFixedSize(width(), height());
   view::initial_graph();
 
@@ -69,11 +68,11 @@ view::view(QWidget *parent)
           SLOT(click_to_result()));
 }
 
- view::~view() {
-   delete ui;
-   ui->customPlot->clearPlottables();
-   ui->customPlot->clearItems();
- }
+view::~view() {
+  delete ui;
+  ui->customPlot->clearPlottables();
+  ui->customPlot->clearItems();
+}
 
 // my funcs:
 void view::on_pushButton_clear_all_clicked() {
@@ -243,8 +242,7 @@ void view::click_to_result() {
   } else {
     text = "(" + text + ")";
     std::string str = text.toStdString();
-    const char *cstr = str.c_str();
-    is_print_err = (api_to_calculate(cstr, &res));
+    is_print_err = (s21::controller().api_to_calculate(str, &res));
   }
 
   if (is_print_err) {
@@ -262,8 +260,7 @@ double view::convert_x_to_y(double x, QString text) {
   text.replace("x", '(' + x_str + ')');
   text = "(" + text + ")";
   std::string str = text.toStdString();
-  const char *cstr = str.c_str();
-  api_to_calculate(cstr, &y);
+  s21::controller().api_to_calculate(str, &y);
   return (double)y;
 }
 
@@ -280,8 +277,8 @@ void view::on_pushButton_create_graph_clicked() {
     QString text_to_valid = text;
     text_to_valid.replace("x", '(' + x_text + ')');
     std::string str = text_to_valid.toStdString();
-    const char *cstr = str.c_str();
-    if (!api_to_validate(cstr)) {
+    // const char *cstr = str.c_str();
+    if (!s21::controller().api_to_validate(str)) {
       if (!x_text.isEmpty()) {
         x_value = x_text.toDouble(&is_print);
       }

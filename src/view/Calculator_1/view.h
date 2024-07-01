@@ -4,9 +4,7 @@
 #include <QMainWindow>
 #include <QVector>
 
-// extern "C" {
-// #include "../../s21_calc_controller.h"
-// }
+#include "./../../controller/controller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

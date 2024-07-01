@@ -5,7 +5,6 @@
 #include <iostream>
 #include <stack>
 #include <string>
-// using std
 
 namespace s21 {
 // result of working foo
@@ -13,7 +12,7 @@ enum class result { success, failure };
 
 // node for stack
 class node_t {
-  private:
+ private:
   // clear
  public:
   int _math_foo;
@@ -28,8 +27,7 @@ class node_t {
   node_t(const node_t& other);
   ~node_t();
 
-  int is_number(const node_t &node);
-
+  int is_number(const node_t& node);
 };
 
 class counter {
@@ -72,6 +70,15 @@ class model {
   ~model();
 
   /**
+   * @brief func to full calculation from str
+   * @param input_str raw str from frontend
+   * @param result result of calculations
+   * @return `0` - success
+   * @return `1` - error
+   */
+  int calculate_str(std::string input_str, long double* result);
+
+  /**
    * @brief func to calculate polish notation
    * @param polish reverse polish notation to calculate
    * @param result result of calculations
@@ -86,7 +93,7 @@ class model {
    * @return `0` - if string correct
    * @return `1` - if string incorrect
    */
-  int validate_string(char* str);
+  int validate_string(std::string str);
 
   /**
    * @brief foo converts to reverse polish notation
