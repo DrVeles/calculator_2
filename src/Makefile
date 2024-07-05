@@ -38,7 +38,7 @@ test: clean google_format
 	./a.out
 
 debug: clean google_format
-	$(CC) $(CC_FLAGS) -g ./tests/tests.cpp ./model/model.cpp -o d.out
+	$(CC) $(CC_FLAGS) -g ./tests/debug.cpp ./model/model.cpp -o d.out
 	./d.out
 
 leaks: test

@@ -34,6 +34,7 @@ PolishNode& PolishNode::operator=(const PolishNode& other) {
 }
 
 // Model class functions
+
 int Model::validate_string(std::string str) {
   int flag = 0;
   int brackets = 0;
@@ -93,12 +94,10 @@ int Model::converting_to_polish(std::string str,
       temp_i++;
     } else if (str[i] >= '0' && str[i] <= '9') {
       temp_i = parse_numbers(str, temp_i, lenth_of_str, &temp_node);
-      // push(&temp_polish, &temp_node);
       temp_polish.push(temp_node);
     } else if (str[i] == '(' || str[i] == 's' || str[i] == 'c' ||
                str[i] == 't' || str[i] == 'a' || str[i] == 'l') {
       temp_i = parse_brackets_funcs(str, temp_i, &temp_node);
-      // push(&temp_stack, &temp_node);
       temp_stack.push(temp_node);
     } else if ((str[i] == '+' || str[i] == '-' || str[i] == '*' ||
                 str[i] == '/' || str[i] == '^' || str[i] == '%')) {
@@ -110,8 +109,6 @@ int Model::converting_to_polish(std::string str,
     }
     if (i == lenth_of_str - 1) {
       while (!temp_stack.empty()) {
-        // pop(&temp_stack, &temp_node);
-        // push(&temp_polish, &temp_node);
         temp_polish.push(temp_stack.top());
         temp_stack.pop();
       }
@@ -133,10 +130,6 @@ size_t Model::parse_numbers(std::string str, size_t i, size_t lenth_of_str,
 
   std::string str_number = str.substr(i, lenth_num);
   temp_node->_value = std::stod(str_number);
-  // char str_number[lenth_num + 1];
-  // str_number[lenth_num] = '\0';
-  // strncpy(str_number, &str[i], lenth_num);
-  // temp_node->_value = atof(str_number);
 
   return (i += lenth_num);
 }
@@ -192,11 +185,7 @@ void Model::parse_operators(std::string str, size_t i, PolishNode* temp_node,
   PolishNode last_node = PolishNode(0);
   if (!temp_stack->empty()) {
     last_node = temp_stack->top();
-  } else {
-    return;
   }
-  // last_node = temp_stack->top();
-  // show(temp_stack, &last_node);
   if ((str[i] == '+' || str[i] == '-') &&
       (str[i - 1] == '(' || (str[i - 1] == ' ' && str[i - 2] == '('))) {
     temp_node->_is_unary = true;
@@ -210,20 +199,15 @@ void Model::parse_operators(std::string str, size_t i, PolishNode* temp_node,
   }
   temp_node->_operator = str[i];
 
-  // while ((!show(temp_stack, &last_node)) && (last_node._operator != '(') &&
   while (!temp_stack->empty() && (last_node._operator != '(') &&
          (((last_node._priority >= temp_node->_priority) &&
            (!temp_node->_is_unary && temp_node->_operator != '^')))) {
-    // PolishNode copy_node = {0};
-    // pop(temp_stack, &copy_node);
-    // push(temp_polish, &copy_node);
     temp_polish->push(temp_stack->top());
     temp_stack->pop();
-    if (temp_stack->empty()) {
+    if (!temp_stack->empty()) {
       last_node = temp_stack->top();
     }
   }
-  // push(temp_stack,temp_node);
   temp_stack->push(*temp_node);
 }
 
@@ -231,20 +215,16 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
                                  std::stack<s21::PolishNode>* temp_stack) {
   PolishNode last_node = temp_stack->top();
   bool while_flag = true;
-  // while ((!show(temp_stack, &last_node)) && (last_node._operator != '(') &&
+
   while (!temp_stack->empty() && (last_node._operator != '(') && while_flag) {
-    // pop(temp_stack, &last_node);
-    // push(temp_polish, &last_node);
     temp_polish->push(temp_stack->top());
     temp_stack->pop();
-    // if (last_node._math_foo) {
-    if (last_node._math_foo != MathFuncs::not_foo) {
+      if (last_node._math_foo != MathFuncs::not_foo) {
       while_flag = false;
     }
   }
   if (last_node._operator == '(') {
-    // pop(temp_stack, &last_node);
-    temp_stack->pop();
+      temp_stack->pop();
   }
 
   if (!temp_stack->empty()) {
@@ -254,21 +234,16 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
 
 void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
                                std::stack<s21::PolishNode>* temp_stack) {
-  // PolishNode last_node = {0}, temp_node = {0};
-  // pop(polish, &last_node);
-  PolishNode last_node = polish->top();
   PolishNode temp_node(0);
+  PolishNode last_node = polish->top();
   polish->pop();
 
   if (last_node._operator == '-') {
-    // pop(temp_stack, &temp_node);
     temp_node = temp_stack->top();
     temp_stack->pop();
     temp_node._value *= -1;
-    // push(temp_stack, &temp_node);
     temp_stack->push(temp_node);
   } else if (last_node._operator != '+') {
-    // pop(temp_stack, &temp_node);
     temp_node = temp_stack->top();
     temp_stack->pop();
     switch (last_node._math_foo) {
@@ -302,26 +277,22 @@ void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
       default:
         break;
     }
-    // push(temp_stack, &temp_node);
     temp_stack->push(temp_node);
   }
 }
 
 void Model::binary_calculations(std::stack<s21::PolishNode>* polish,
                                 std::stack<s21::PolishNode>* temp_stack) {
-  // pop(temp_stack, &last_node);
   PolishNode last_node = temp_stack->top();
   temp_stack->pop();
   long double second_num = get_number(&last_node);
-  // pop(temp_stack, &last_node);
   last_node = temp_stack->top();
   temp_stack->pop();
   long double first_num = get_number(&last_node);
-  // pop(polish, &last_node);
   last_node = polish->top();
   polish->pop();
   char operatorr = last_node._operator;
-  // clear_node(&last_node);
+  std::cout << first_num << " " << operatorr << " " << second_num << "\n";
   last_node = PolishNode(0);
   switch (operatorr) {
     case '-':
@@ -345,28 +316,22 @@ void Model::binary_calculations(std::stack<s21::PolishNode>* polish,
     default:
       break;
   }
-  // push(temp_stack, &last_node);
   temp_stack->push(last_node);
 }
 
 int Model::calcultaion_from_polish(std::stack<s21::PolishNode>* polish,
                                    long double* result) {
-  // reverse_polish(polish);
   std::stack<s21::PolishNode> temp_stack;
   while (!polish->empty()) {
     temp_stack.push(polish->top());
     polish->pop();
   }
-  polish = &temp_stack;
+  *polish = temp_stack;
   bool err_flag = false;
-  // std::stack<s21::PolishNode> temp_stack;
   PolishNode last_node = {0};
 
-  // while (!show(polish, &last_node)) {
-  //   if (is_number(&last_node)) {
-  //     pop(polish, &last_node);
-  //     push(&temp_stack, &last_node);
   while (!polish->empty()) {
+    last_node = polish->top();
     if (last_node._math_foo == MathFuncs::not_foo &&
         last_node._operator == '\0' && !last_node._is_unary &&
         last_node._priority == Priority::zero) {
@@ -378,10 +343,11 @@ int Model::calcultaion_from_polish(std::stack<s21::PolishNode>* polish,
       binary_calculations(polish, &temp_stack);
     }
   }
-  // show(&temp_stack, &last_node);
   last_node = temp_stack.top();
   *result = last_node._value;
 
+  std::cout << "len of last stack must be 1, but now " << temp_stack.size()
+            << "\n";
   return err_flag;
 }
 

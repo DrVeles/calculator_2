@@ -14,7 +14,7 @@ view::view(QWidget *parent) : QMainWindow(parent), ui(new Ui::view) {
   ui->input_field_x->setValidator(validator);
 
   on_pushButton_clear_all_clicked();
-  // added new connections manually
+
   connect(ui->pushButton_0, SIGNAL(clicked()), this, SLOT(click_to_number()));
   connect(ui->pushButton_1, SIGNAL(clicked()), this, SLOT(click_to_number()));
   connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(click_to_number()));
@@ -74,7 +74,6 @@ view::~view() {
   ui->customPlot->clearItems();
 }
 
-// my funcs:
 void view::on_pushButton_clear_all_clicked() {
   ui->label_show_field->setText("");
   ui->input_field_x->setText("");
@@ -277,7 +276,6 @@ void view::on_pushButton_create_graph_clicked() {
     QString text_to_valid = text;
     text_to_valid.replace("x", '(' + x_text + ')');
     std::string str = text_to_valid.toStdString();
-    // const char *cstr = str.c_str();
     if (!s21::Controller().api_to_validate(str)) {
       if (!x_text.isEmpty()) {
         x_value = x_text.toDouble(&is_print);
@@ -322,7 +320,7 @@ void view::initial_graph() {
 
   ui->customPlot->xAxis->setRange(-range, range);
   ui->customPlot->yAxis->setRange(-range, range);
-  // styles
+  
   ui->customPlot->xAxis->setBasePen(QPen(QColor("#5E6C87")));
   ui->customPlot->yAxis->setBasePen(QPen(QColor("#5E6C87")));
   ui->customPlot->xAxis->setTickPen(QPen(QColor("#5E6C87")));

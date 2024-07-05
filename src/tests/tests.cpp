@@ -130,7 +130,7 @@ TEST(test_model, calculate_power) {
 }
 
 TEST(test_model, calculate_modulus) {
-  string strings[] = {"10 mod 3", "7 mod 4", "5 mod 2", "8 mod 5"};
+  string strings[] = {"10 % 3", "7 % 4", "5 % 2", "8 % 5"};
   long double expected[] = {1, 3, 1, 3};
   Model m;
   long double res;
@@ -279,7 +279,7 @@ TEST(test_model, calculate_log) {
 TEST(test_controller, test_api_to_validate_true) {
   s21::Controller c;
   string strings[] = {"1 + 1", "3 - 1", "0.5 * 6", "15/5"};
-    for (auto str : strings) {
+  for (auto str : strings) {
     ASSERT_EQ(c.api_to_validate(str), 0);
   }
 }
@@ -287,7 +287,7 @@ TEST(test_controller, test_api_to_validate_true) {
 TEST(test_controller, test_api_to_validate_false) {
   string strings[] = {"1 + 1 +", "3 - 1)", "(0.5 * 6", "15/5..5"};
   s21::Controller c;
-   for (auto str : strings) {
+  for (auto str : strings) {
     ASSERT_EQ(c.api_to_validate(str), 1);
   }
 }
@@ -302,23 +302,19 @@ TEST(test_controller, test_api_to_calculate_true) {
   };
 
   std::vector<TestCase> testCases = {
-      {"1 + 2 - 3 * 13", 1 + 2 - 3 * 13},         
-      {"(1 + 2) - 3 * 13", (1 + 2) - 3 * 13},      
-      {"1 + (2 - 3) * 13", 1 + (2 - 3) * 13},     
-      {"(1 + 2 - 3) * 13", (1 + 2 - 3) * 13},     
-      {"(1 + 2) * (3 - 13)", (1 + 2) * (3 - 13)}, 
-      {"(1 + 2) * 3 - 13", (1 + 2) * 3 - 13},     
-      {"1 + 2 - 3 * 13 + 4 / 2",
-       1 + 2 - 3 * 13 + 4 / 2},  
-      {"(1 + 2) * (3 - 13) / 2",
-       (1 + 2) * (3 - 13) / 2},  
+      {"1 + 2 - 3 * 13", 1 + 2 - 3 * 13},
+      {"(1 + 2) - 3 * 13", (1 + 2) - 3 * 13},
+      {"1 + (2 - 3) * 13", 1 + (2 - 3) * 13},
+      {"(1 + 2 - 3) * 13", (1 + 2 - 3) * 13},
+      {"(1 + 2) * (3 - 13)", (1 + 2) * (3 - 13)},
+      {"(1 + 2) * 3 - 13", (1 + 2) * 3 - 13},
+      {"1 + 2 - 3 * 13 + 4 / 2", 1 + 2 - 3 * 13 + 4 / 2},
+      {"(1 + 2) * (3 - 13) / 2", (1 + 2) * (3 - 13) / 2},
       {"sqrt(16) + log(1) * log10(10) / sin(3.14159265 / 2)",
-       sqrt(16) +
-           log(1) * log10(10) / sin(3.14159265 / 2)},  
+       sqrt(16) + log(1) * log10(10) / sin(3.14159265 / 2)},
       {"cos(0) + sin(3.14159265 / 2) - tan(0)",
-       cos(0) + sin(3.14159265 / 2) - tan(0)},  
-      {"asin(1) + acos(0) - atan(1)",
-       asin(1) + acos(0) - atan(1)},  
+       cos(0) + sin(3.14159265 / 2) - tan(0)},
+      {"asin(1) + acos(0) - atan(1)", asin(1) + acos(0) - atan(1)},
   };
 
   for (const auto& testCase : testCases) {
@@ -332,7 +328,6 @@ TEST(test_controller, test_api_to_calculate_true) {
 TEST(test_controller, test_api_to_calculate_false) {
   s21::Controller c;
   string strings[] = {"1 + 1 +", "3 - 1)", "(0.5 * 6", "15/5..5"};
-  Model m;
   long double res;
   for (auto str : strings) {
     ASSERT_EQ(c.api_to_calculate(str, &res), 1);

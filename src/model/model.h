@@ -7,7 +7,6 @@
 #include <string>
 
 namespace s21 {
-// node for stack
 /**
 operation priority:
 0 - x, n
@@ -32,11 +31,11 @@ enum class MathFuncs {
   log_foo
 };
 
+// node for stack
 class PolishNode {
  public:
   MathFuncs _math_foo;
-  // (, ), -, +, *, /, ^, %
-  char _operator;
+  char _operator;  // (, ), -, +, *, /, ^, %
   bool _is_unary;
   Priority _priority;
   long double _value;
