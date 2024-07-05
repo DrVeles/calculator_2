@@ -1,42 +1,36 @@
-#include "Model.h"
+#include "model.h"
 
 namespace s21 {
 // PolishNode class functions
 
-PolishNode::PolishNode() { this->clear_node(); };
-PolishNode::PolishNode(long double value) {
-  this->clear_node();
-  _value = value;
-};
-PolishNode::PolishNode(const PolishNode& other) {
-  this->clear_node();
+PolishNode::PolishNode()
+    : _math_foo(MathFuncs::not_foo),
+      _operator('\0'),
+      _is_unary(false),
+      _priority(Priority::zero),
+      _value(0.0) {}
 
-  this->_math_foo = other._math_foo;
-  this->_operator = other._operator;
-  this->_is_unary = other._is_unary;
-  this->_priority = other._priority;
-  this->_value = other._value;
-};
-
-PolishNode& PolishNode::operator=(const PolishNode& other) {
-  if (this == &other) {
-    return *this;
-  }
-  this->_math_foo = other._math_foo;
-  this->_operator = other._operator;
-  this->_is_unary = other._is_unary;
-  this->_priority = other._priority;
-  this->_value = other._value;
-
-  return *this;
+PolishNode::PolishNode(long double value) : PolishNode::PolishNode() {
+  this->_value = value;
 }
 
-void PolishNode::clear_node() {
-  this->_math_foo = PolishNode::MathFuncs::not_foo;
-  this->_operator = '\0';
-  this->_is_unary = 0;
-  this->_priority = PolishNode::Priority::zero;
-  this->_value = 0.0;
+PolishNode::PolishNode(const PolishNode& other) : PolishNode::PolishNode() {
+  this->_math_foo = other._math_foo;
+  this->_operator = other._operator;
+  this->_is_unary = other._is_unary;
+  this->_priority = other._priority;
+  this->_value = other._value;
+}
+
+PolishNode& PolishNode::operator=(const PolishNode& other) {
+  if (this != &other) {
+    this->_math_foo = other._math_foo;
+    this->_operator = other._operator;
+    this->_is_unary = other._is_unary;
+    this->_priority = other._priority;
+    this->_value = other._value;
+  }
+  return *this;
 }
 
 // Model class functions
@@ -73,7 +67,7 @@ int Model::calculate_str(std::string input_str, long double* result) {
   int flag = 0;
   if (!(validate_string(input_str)) &&
       !(converting_to_polish(input_str, &polish)) &&
-      !(calculations(&polish, &temp_res))) {
+      !(calcultaion_from_polish(&polish, &temp_res))) {
     *result = temp_res;
   } else {
     flag = 1;
@@ -126,7 +120,7 @@ int Model::converting_to_polish(std::string str,
   }
   *polish = temp_polish;
   return flag;
-};
+}
 
 size_t Model::parse_numbers(std::string str, size_t i, size_t lenth_of_str,
                             PolishNode* temp_node) {
@@ -152,38 +146,38 @@ size_t Model::parse_brackets_funcs(std::string str, size_t i,
   size_t len_str_foo = 0;
   if (str[i] == '(') {
     temp_node->_operator = '(';
-    temp_node->_priority = PolishNode::Priority::third;
+    temp_node->_priority = Priority::third;
     len_str_foo = 1;
   } else if (str[i] == 's') {
     if (str[i + 1] == 'i' && str[i + 2] == 'n' && str[i + 3] == '(') {
-      temp_node->_math_foo = PolishNode::MathFuncs::sin_foo;
+      temp_node->_math_foo = MathFuncs::sin_foo;
     } else if (str[i + 1] == 'q' && str[i + 4] == '(') {
-      temp_node->_math_foo = PolishNode::MathFuncs::sqrt_foo;
+      temp_node->_math_foo = MathFuncs::sqrt_foo;
       len_str_foo = 5;
     }
   } else if (str[i] == 'c' && str[i + 3] == '(') {
-    temp_node->_math_foo = PolishNode::MathFuncs::cos_foo;
+    temp_node->_math_foo = MathFuncs::cos_foo;
   } else if (str[i] == 't' && str[i + 3] == '(') {
-    temp_node->_math_foo = PolishNode::MathFuncs::tan_foo;
+    temp_node->_math_foo = MathFuncs::tan_foo;
   } else if (str[i] == 'a') {
     if (str[i + 1] == 's' && str[i + 4] == '(') {
-      temp_node->_math_foo = PolishNode::MathFuncs::asin_foo;
+      temp_node->_math_foo = MathFuncs::asin_foo;
     } else if (str[i + 1] == 'c' && str[i + 4] == '(') {
-      temp_node->_math_foo = PolishNode::MathFuncs::acos_foo;
+      temp_node->_math_foo = MathFuncs::acos_foo;
     } else if (str[i + 1] == 't' && str[i + 4] == '(') {
-      temp_node->_math_foo = PolishNode::MathFuncs::atan_foo;
+      temp_node->_math_foo = MathFuncs::atan_foo;
     }
     len_str_foo = 5;
   } else if (str[i] == 'l') {
     if (str[i + 1] == 'n' && str[i + 2] == '(') {
-      temp_node->_math_foo = PolishNode::MathFuncs::ln_foo;
+      temp_node->_math_foo = MathFuncs::ln_foo;
       len_str_foo = 3;
     } else if (str[i + 1] == 'o' && str[i + 3] == '(') {
-      temp_node->_math_foo = PolishNode::MathFuncs::log_foo;
+      temp_node->_math_foo = MathFuncs::log_foo;
     }
   }
-  if (temp_node->_priority == PolishNode::Priority::zero) {
-    temp_node->_priority = PolishNode::Priority::fourt;
+  if (temp_node->_priority == Priority::zero) {
+    temp_node->_priority = Priority::fourt;
   }
   if (!len_str_foo) {
     len_str_foo = 4;
@@ -195,18 +189,24 @@ size_t Model::parse_brackets_funcs(std::string str, size_t i,
 void Model::parse_operators(std::string str, size_t i, PolishNode* temp_node,
                             std::stack<s21::PolishNode>* temp_polish,
                             std::stack<s21::PolishNode>* temp_stack) {
-  PolishNode last_node = temp_stack->top();
+  PolishNode last_node = PolishNode(0);
+  if (!temp_stack->empty()) {
+    last_node = temp_stack->top();
+  } else {
+    return;
+  }
+  // last_node = temp_stack->top();
   // show(temp_stack, &last_node);
   if ((str[i] == '+' || str[i] == '-') &&
       (str[i - 1] == '(' || (str[i - 1] == ' ' && str[i - 2] == '('))) {
     temp_node->_is_unary = true;
-    temp_node->_priority = PolishNode::Priority::third;
+    temp_node->_priority = Priority::third;
   } else if (str[i] == '+' || str[i] == '-') {
-    temp_node->_priority = PolishNode::Priority::first;
+    temp_node->_priority = Priority::first;
   } else if (str[i] == '^') {
-    temp_node->_priority = PolishNode::Priority::third;
+    temp_node->_priority = Priority::third;
   } else {
-    temp_node->_priority = PolishNode::Priority::second;
+    temp_node->_priority = Priority::second;
   }
   temp_node->_operator = str[i];
 
@@ -238,7 +238,7 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
     temp_polish->push(temp_stack->top());
     temp_stack->pop();
     // if (last_node._math_foo) {
-    if (last_node._math_foo != PolishNode::MathFuncs::not_foo) {
+    if (last_node._math_foo != MathFuncs::not_foo) {
       while_flag = false;
     }
   }
@@ -247,7 +247,7 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
     temp_stack->pop();
   }
 
-  if (temp_stack->empty()) {
+  if (!temp_stack->empty()) {
     last_node = temp_stack->top();
   }
 }
@@ -272,31 +272,31 @@ void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
     temp_node = temp_stack->top();
     temp_stack->pop();
     switch (last_node._math_foo) {
-      case PolishNode::MathFuncs::sin_foo:
+      case MathFuncs::sin_foo:
         temp_node._value = sinl(temp_node._value);
         break;
-      case PolishNode::MathFuncs::cos_foo:
+      case MathFuncs::cos_foo:
         temp_node._value = cosl(temp_node._value);
         break;
-      case PolishNode::MathFuncs::tan_foo:
+      case MathFuncs::tan_foo:
         temp_node._value = tanl(temp_node._value);
         break;
-      case PolishNode::MathFuncs::asin_foo:
+      case MathFuncs::asin_foo:
         temp_node._value = asinl(temp_node._value);
         break;
-      case PolishNode::MathFuncs::acos_foo:
+      case MathFuncs::acos_foo:
         temp_node._value = acosl(temp_node._value);
         break;
-      case PolishNode::MathFuncs::atan_foo:
+      case MathFuncs::atan_foo:
         temp_node._value = atanl(temp_node._value);
         break;
-      case PolishNode::MathFuncs::sqrt_foo:
+      case MathFuncs::sqrt_foo:
         temp_node._value = sqrtl(temp_node._value);
         break;
-      case PolishNode::MathFuncs::ln_foo:
+      case MathFuncs::ln_foo:
         temp_node._value = logl(temp_node._value);
         break;
-      case PolishNode::MathFuncs::log_foo:
+      case MathFuncs::log_foo:
         temp_node._value = log10l(temp_node._value);
         break;
       default:
@@ -349,8 +349,8 @@ void Model::binary_calculations(std::stack<s21::PolishNode>* polish,
   temp_stack->push(last_node);
 }
 
-int Model::calculations(std::stack<s21::PolishNode>* polish,
-                        long double* result) {
+int Model::calcultaion_from_polish(std::stack<s21::PolishNode>* polish,
+                                   long double* result) {
   // reverse_polish(polish);
   std::stack<s21::PolishNode> temp_stack;
   while (!polish->empty()) {
@@ -367,9 +367,9 @@ int Model::calculations(std::stack<s21::PolishNode>* polish,
   //     pop(polish, &last_node);
   //     push(&temp_stack, &last_node);
   while (!polish->empty()) {
-    if (last_node._math_foo == PolishNode::MathFuncs::not_foo &&
+    if (last_node._math_foo == MathFuncs::not_foo &&
         last_node._operator == '\0' && !last_node._is_unary &&
-        last_node._priority == PolishNode::Priority::zero) {
+        last_node._priority == Priority::zero) {
       temp_stack.push(polish->top());
       polish->pop();
     } else if (last_node._is_unary) {

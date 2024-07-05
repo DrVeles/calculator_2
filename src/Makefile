@@ -1,6 +1,6 @@
 CC = g++
 CC_FLAGS = -Wall -Wextra -Werror -std=c++17
-# CC_TEST_FLAGS = -lgtest --coverage 
+CC_TEST_FLAGS = -lgtest --coverage 
 
 all: install
 
@@ -20,7 +20,7 @@ uninstall: clean
 	@echo "======================================"
 
 clean: 
-	-@rm -rf a.out
+	-@rm -rf *.out *.gcno *.gcda *.dSYM/ *.o
 
 dvi:
 	$(OPEN_COMAND) ../README.md
@@ -34,7 +34,7 @@ dist: clean
 	@rm -rf SmartCalc_v2.0/
 
 test: clean google_format
-	$(CC) $(CC_FLAGS) ./tests/tests.cpp ./model/model.cpp -o a.out
+	$(CC) $(CC_FLAGS) ./tests/tests.cpp ./model/model.cpp -o a.out $(CC_TEST_FLAGS)
 	./a.out
 
 debug: clean google_format

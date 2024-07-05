@@ -11,8 +11,8 @@
     - Calculating Polish notation<br>
 
 - TESTS<br>
-    - Controller <br>
-    - Model<br>
+    - ✅ Model<br>
+    - ✅ Controller <br>
 
 - Correcting View using OOP <br>
     - Make namespace s21 in view ?<br>
