@@ -15,6 +15,7 @@
     - ✅ Controller <br>
 
 - Correcting View using OOP <br>
+    - FIX DROPPING WHEN CLICK GRAPH
     - Make namespace s21 in view ?<br>
     - CHANGE FRONTEND DESIGN <br>
     - ✅ Fix CMAKE to make from other directories   <br>

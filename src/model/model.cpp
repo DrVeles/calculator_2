@@ -1,7 +1,6 @@
 #include "model.h"
 
 namespace s21 {
-// PolishNode class functions
 
 PolishNode::PolishNode()
     : _math_foo(MathFuncs::not_foo),
@@ -32,8 +31,6 @@ PolishNode& PolishNode::operator=(const PolishNode& other) {
   }
   return *this;
 }
-
-// Model class functions
 
 int Model::validate_string(std::string str) {
   int flag = 0;
@@ -73,7 +70,6 @@ int Model::calculate_str(std::string input_str, long double* result) {
   } else {
     flag = 1;
   }
-
   return flag;
 }
 
@@ -84,16 +80,16 @@ int Model::converting_to_polish(std::string str,
   }
   int flag = 0;
   std::stack<s21::PolishNode> temp_stack, temp_polish;
-  size_t lenth_of_str = str.length();
+  size_t length_of_str = str.length();
 
-  for (size_t i = 0; i < lenth_of_str && !flag;) {
+  for (size_t i = 0; i < length_of_str && !flag;) {
     size_t temp_i = i;
     PolishNode temp_node;
 
     if (str[i] == ' ') {
       temp_i++;
     } else if (str[i] >= '0' && str[i] <= '9') {
-      temp_i = parse_numbers(str, temp_i, lenth_of_str, &temp_node);
+      temp_i = parse_numbers(str, temp_i, length_of_str, &temp_node);
       temp_polish.push(temp_node);
     } else if (str[i] == '(' || str[i] == 's' || str[i] == 'c' ||
                str[i] == 't' || str[i] == 'a' || str[i] == 'l') {
@@ -107,7 +103,8 @@ int Model::converting_to_polish(std::string str,
       parse_close_brackets(&temp_polish, &temp_stack);
       temp_i++;
     }
-    if (i == lenth_of_str - 1) {
+
+    if (i == length_of_str - 1) {
       while (!temp_stack.empty()) {
         temp_polish.push(temp_stack.top());
         temp_stack.pop();
@@ -119,19 +116,17 @@ int Model::converting_to_polish(std::string str,
   return flag;
 }
 
-size_t Model::parse_numbers(std::string str, size_t i, size_t lenth_of_str,
+size_t Model::parse_numbers(std::string str, size_t i, size_t length_of_str,
                             PolishNode* temp_node) {
-  int lenth_num = 1;
+  int length_num = 1;
   for (size_t j = i + 1;
-       j < lenth_of_str && ((str[j] >= '0' && str[j] <= '9') || str[j] == '.');
-       j++, lenth_num++) {
+       j < length_of_str && ((str[j] >= '0' && str[j] <= '9') || str[j] == '.');
+       j++, length_num++) {
     ;
   }
-
-  std::string str_number = str.substr(i, lenth_num);
+  std::string str_number = str.substr(i, length_num);
   temp_node->_value = std::stod(str_number);
-
-  return (i += lenth_num);
+  return (i += length_num);
 }
 
 size_t Model::parse_brackets_funcs(std::string str, size_t i,
@@ -146,6 +141,7 @@ size_t Model::parse_brackets_funcs(std::string str, size_t i,
       temp_node->_math_foo = MathFuncs::sin_foo;
     } else if (str[i + 1] == 'q' && str[i + 4] == '(') {
       temp_node->_math_foo = MathFuncs::sqrt_foo;
+
       len_str_foo = 5;
     }
   } else if (str[i] == 'c' && str[i + 3] == '(') {
@@ -164,6 +160,7 @@ size_t Model::parse_brackets_funcs(std::string str, size_t i,
   } else if (str[i] == 'l') {
     if (str[i + 1] == 'n' && str[i + 2] == '(') {
       temp_node->_math_foo = MathFuncs::ln_foo;
+
       len_str_foo = 3;
     } else if (str[i + 1] == 'o' && str[i + 3] == '(') {
       temp_node->_math_foo = MathFuncs::log_foo;
@@ -192,6 +189,7 @@ void Model::parse_operators(std::string str, size_t i, PolishNode* temp_node,
     temp_node->_priority = Priority::third;
   } else if (str[i] == '+' || str[i] == '-') {
     temp_node->_priority = Priority::first;
+
   } else if (str[i] == '^') {
     temp_node->_priority = Priority::third;
   } else {

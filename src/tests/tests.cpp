@@ -65,7 +65,6 @@ TEST(test_model, calculate_str_1) {
   for (auto str : strings) {
     m.calculate_str(str, &res);
     ASSERT_EQ(res, 3.0);
-    cout << "calculating str " << str << " = " << res << "\n";
   }
 }
 
@@ -77,7 +76,6 @@ TEST(test_model, calculate_addition) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_EQ(res, expected[i]);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -89,7 +87,6 @@ TEST(test_model, calculate_subtraction) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_EQ(res, expected[i]);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -101,7 +98,6 @@ TEST(test_model, calculate_multiplication) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_EQ(res, expected[i]);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -113,7 +109,6 @@ TEST(test_model, calculate_division) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_EQ(res, expected[i]);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -125,7 +120,6 @@ TEST(test_model, calculate_power) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_EQ(res, expected[i]);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -137,7 +131,6 @@ TEST(test_model, calculate_modulus) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_EQ(res, expected[i]);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -149,7 +142,6 @@ TEST(test_model, calculate_unary_plus_minus) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_EQ(res, expected[i]);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -171,7 +163,6 @@ TEST(test_model, calculate_cosine) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -184,7 +175,6 @@ TEST(test_model, calculate_sine) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -197,7 +187,6 @@ TEST(test_model, calculate_tangent) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -209,7 +198,6 @@ TEST(test_model, calculate_arccosine) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -221,7 +209,6 @@ TEST(test_model, calculate_arcsine) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -233,7 +220,6 @@ TEST(test_model, calculate_arctangent) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -245,7 +231,6 @@ TEST(test_model, calculate_sqrt) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -258,7 +243,6 @@ TEST(test_model, calculate_ln) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -270,7 +254,6 @@ TEST(test_model, calculate_log) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_NEAR(res, expected[i], EPSILON);
-    cout << "calculating str " << strings[i] << " = " << res << "\n";
   }
 }
 
@@ -320,8 +303,6 @@ TEST(test_controller, test_api_to_calculate_true) {
   for (const auto& testCase : testCases) {
     c.api_to_calculate(testCase.expression, &res);
     ASSERT_NEAR(res, testCase.expected, EPSILON);
-    std::cout << "calculating str " << testCase.expression << " = " << res
-              << "\n";
   }
 }
 
