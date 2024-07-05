@@ -4,16 +4,18 @@ namespace s21 {
 // PolishNode class functions
 
 PolishNode::PolishNode() { this->clear_node(); };
-PolishNode::PolishNode(long double _value) {
+PolishNode::PolishNode(long double value) {
   this->clear_node();
-  _value = _value;
+  _value = value;
 };
 PolishNode::PolishNode(const PolishNode& other) {
+  this->clear_node();
+
   this->_math_foo = other._math_foo;
   this->_operator = other._operator;
   this->_is_unary = other._is_unary;
   this->_priority = other._priority;
-  this->_priority = other._priority;
+  this->_value = other._value;
 };
 
 PolishNode& PolishNode::operator=(const PolishNode& other) {
@@ -24,6 +26,7 @@ PolishNode& PolishNode::operator=(const PolishNode& other) {
   this->_operator = other._operator;
   this->_is_unary = other._is_unary;
   this->_priority = other._priority;
+  this->_value = other._value;
 
   return *this;
 }
@@ -316,7 +319,7 @@ void Model::binary_calculations(std::stack<s21::PolishNode>* polish,
   long double first_num = get_number(&last_node);
   // pop(polish, &last_node);
   last_node = polish->top();
-  temp_stack->pop();
+  polish->pop();
   char operatorr = last_node._operator;
   // clear_node(&last_node);
   last_node = PolishNode(0);
