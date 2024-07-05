@@ -219,12 +219,12 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
   while (!temp_stack->empty() && (last_node._operator != '(') && while_flag) {
     temp_polish->push(temp_stack->top());
     temp_stack->pop();
-      if (last_node._math_foo != MathFuncs::not_foo) {
+    if (last_node._math_foo != MathFuncs::not_foo) {
       while_flag = false;
     }
   }
   if (last_node._operator == '(') {
-      temp_stack->pop();
+    temp_stack->pop();
   }
 
   if (!temp_stack->empty()) {

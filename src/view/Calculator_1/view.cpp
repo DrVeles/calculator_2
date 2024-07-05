@@ -320,7 +320,7 @@ void view::initial_graph() {
 
   ui->customPlot->xAxis->setRange(-range, range);
   ui->customPlot->yAxis->setRange(-range, range);
-  
+
   ui->customPlot->xAxis->setBasePen(QPen(QColor("#5E6C87")));
   ui->customPlot->yAxis->setBasePen(QPen(QColor("#5E6C87")));
   ui->customPlot->xAxis->setTickPen(QPen(QColor("#5E6C87")));
