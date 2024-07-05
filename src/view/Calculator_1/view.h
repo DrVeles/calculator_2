@@ -5,6 +5,7 @@
 #include <QVector>
 
 #include "./../../controller/controller.h"
+#include "qcustomplot.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
