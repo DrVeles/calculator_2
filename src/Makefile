@@ -45,5 +45,5 @@ leaks: test
 	CK_FORK=no leaks -atExit -q -- ./a.out
 
 google_format:
-	-@clang-format -style=Google -i */*.h */*.cpp */*/*.h */*/*.cpp
+	-@clang-format -style=Google -i */*.h */*.cpp 
 	@echo "===========> FORMATTED <============"

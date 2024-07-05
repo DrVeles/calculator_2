@@ -211,7 +211,10 @@ void Model::parse_operators(std::string str, size_t i, PolishNode* temp_node,
 
 void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
                                  std::stack<s21::PolishNode>* temp_stack) {
-  PolishNode last_node = temp_stack->top();
+  PolishNode last_node;
+  if (!temp_stack->empty()) {
+    last_node = temp_stack->top();
+  }
   bool while_flag = true;
 
   while (!temp_stack->empty() && (last_node._operator != '(') && while_flag) {
@@ -235,15 +238,14 @@ void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
   PolishNode temp_node(0);
   PolishNode last_node = polish->top();
   polish->pop();
+  temp_node = temp_stack->top();
+  temp_stack->pop();
 
   if (last_node._operator == '-') {
-    temp_node = temp_stack->top();
-    temp_stack->pop();
     temp_node._value *= -1;
-    temp_stack->push(temp_node);
   } else if (last_node._operator != '+') {
-    temp_node = temp_stack->top();
-    temp_stack->pop();
+    std::cout << "val = " << temp_node._value
+              << " unary == " << (int)last_node._math_foo << "\n";
     switch (last_node._math_foo) {
       case MathFuncs::sin_foo:
         temp_node._value = sinl(temp_node._value);
@@ -276,6 +278,8 @@ void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
         break;
     }
     temp_stack->push(temp_node);
+    std::cout << "val = " << temp_node._value
+              << " unary == " << (int)last_node._math_foo << " end \n";
   }
 }
 
@@ -344,8 +348,6 @@ int Model::calcultaion_from_polish(std::stack<s21::PolishNode>* polish,
   last_node = temp_stack.top();
   *result = last_node._value;
 
-  std::cout << "len of last stack must be 1, but now " << temp_stack.size()
-            << "\n";
   return err_flag;
 }
 
