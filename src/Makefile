@@ -37,6 +37,10 @@ test: clean google_format
 	$(CC) $(CC_FLAGS) ./tests/tests.cpp ./model/model.cpp -o a.out
 	./a.out
 
+debug: clean google_format
+	$(CC) $(CC_FLAGS) -g ./tests/tests.cpp ./model/model.cpp -o d.out
+	./d.out
+
 leaks: test
 	CK_FORK=no leaks -atExit -q -- ./a.out
 
