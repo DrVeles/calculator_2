@@ -2,22 +2,22 @@
 
 ## TO DO
 
-✅ Makefile check to all targets.
+✅ Makefile check to all targets.<br>
 
-✅ Controller using OOP
+✅ Controller using OOP<br>
 
-- Model using OOP
-    ✅ Converting to Polish notation
-    - Calculatig Polish notation
+- Model using OOP <br>
+    - ✅ Converting to Polish notation<br>
+    - Calculating Polish notation<br>
 
-- TESTS
-    - Controller 
-    - Model
+- TESTS<br>
+    - Controller <br>
+    - Model<br>
 
-- Correcting View using OOP 
-    - Make namespace s21 in view ?
-    - CHANGE FRONTEND DESIGN
-    ✅ Fix CMAKE to make from other directories   
+- Correcting View using OOP <br>
+    - Make namespace s21 in view ?<br>
+    - CHANGE FRONTEND DESIGN <br>
+    - ✅ Fix CMAKE to make from other directories   <br>
 
 ## Additional 
 

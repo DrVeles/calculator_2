@@ -39,7 +39,7 @@ class PolishNode {
 
   MathFuncs _math_foo;
   // (, ), -, +, *, /, ^, %
-  char _operators;
+  char _operator;
   bool _is_unary;
   Priority _priority;
   long double _value;
@@ -53,19 +53,25 @@ class PolishNode {
 // class for backend calculations
 class Model {
  private:
-  // subfoo to converting_to_polish
   size_t parse_numbers(std::string str, size_t i, size_t lenth_of_str,
                        PolishNode* temp_node);
-  // subfoo to converting_to_polish
 
   size_t parse_brackets_funcs(std::string str, size_t i, PolishNode* temp_node);
-  // subfoo to converting_to_polish
+
   void parse_operators(std::string str, size_t i, PolishNode* temp_node,
                        std::stack<s21::PolishNode>* temp_polish,
                        std::stack<s21::PolishNode>* temp_stack);
-  // subfoo to converting_to_polish
+
   void parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
                             std::stack<s21::PolishNode>* temp_stack);
+
+  void unary_calculations(std::stack<s21::PolishNode>* polish,
+                          std::stack<s21::PolishNode>* temp_stack);
+
+  void binary_calculations(std::stack<s21::PolishNode>* polish,
+                           std::stack<s21::PolishNode>* temp_stack);
+
+  inline long double get_number(PolishNode* node) { return node->_value; };
 
  public:
   /**
@@ -103,6 +109,7 @@ class Model {
    */
   int converting_to_polish(std::string str,
                            std::stack<s21::PolishNode>* polish);
+
 };  // class Model
 }  // namespace s21
 

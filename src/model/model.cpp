@@ -4,13 +4,13 @@ namespace s21 {
 // PolishNode class functions
 
 PolishNode::PolishNode() { this->clear_node(); };
-PolishNode::PolishNode(long double value) {
+PolishNode::PolishNode(long double _value) {
   this->clear_node();
-  _value = value;
+  _value = _value;
 };
 PolishNode::PolishNode(const PolishNode& other) {
   this->_math_foo = other._math_foo;
-  this->_operators = other._operators;
+  this->_operator = other._operator;
   this->_is_unary = other._is_unary;
   this->_priority = other._priority;
   this->_priority = other._priority;
@@ -21,7 +21,7 @@ PolishNode& PolishNode::operator=(const PolishNode& other) {
     return *this;
   }
   this->_math_foo = other._math_foo;
-  this->_operators = other._operators;
+  this->_operator = other._operator;
   this->_is_unary = other._is_unary;
   this->_priority = other._priority;
 
@@ -30,18 +30,13 @@ PolishNode& PolishNode::operator=(const PolishNode& other) {
 
 void PolishNode::clear_node() {
   this->_math_foo = PolishNode::MathFuncs::not_foo;
-  this->_operators = '\0';
+  this->_operator = '\0';
   this->_is_unary = 0;
   this->_priority = PolishNode::Priority::zero;
   this->_value = 0.0;
 }
 
 // Model class functions
-
-Model::Model() {}
-
-Model::~Model() {}
-
 int Model::validate_string(std::string str) {
   int flag = 0;
   int brackets = 0;
@@ -83,9 +78,6 @@ int Model::calculate_str(std::string input_str, long double* result) {
 
   return flag;
 }
-
-int Model::calculations(std::stack<s21::PolishNode>* polish,
-                        long double* result){};
 
 int Model::converting_to_polish(std::string str,
                                 std::stack<s21::PolishNode>* polish) {
@@ -156,7 +148,7 @@ size_t Model::parse_brackets_funcs(std::string str, size_t i,
                                    PolishNode* temp_node) {
   size_t len_str_foo = 0;
   if (str[i] == '(') {
-    temp_node->_operators = '(';
+    temp_node->_operator = '(';
     temp_node->_priority = PolishNode::Priority::third;
     len_str_foo = 1;
   } else if (str[i] == 's') {
@@ -213,13 +205,13 @@ void Model::parse_operators(std::string str, size_t i, PolishNode* temp_node,
   } else {
     temp_node->_priority = PolishNode::Priority::second;
   }
-  temp_node->_operators = str[i];
+  temp_node->_operator = str[i];
 
-  // while ((!show(temp_stack, &last_node)) && (last_node._operators != '(') &&
-  while (!temp_stack->empty() && (last_node._operators != '(') &&
+  // while ((!show(temp_stack, &last_node)) && (last_node._operator != '(') &&
+  while (!temp_stack->empty() && (last_node._operator != '(') &&
          (((last_node._priority >= temp_node->_priority) &&
-           (!temp_node->_is_unary && temp_node->_operators != '^')))) {
-    PolishNode copy_node = {0};
+           (!temp_node->_is_unary && temp_node->_operator != '^')))) {
+    // PolishNode copy_node = {0};
     // pop(temp_stack, &copy_node);
     // push(temp_polish, &copy_node);
     temp_polish->push(temp_stack->top());
@@ -236,8 +228,8 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
                                  std::stack<s21::PolishNode>* temp_stack) {
   PolishNode last_node = temp_stack->top();
   bool while_flag = true;
-  // while ((!show(temp_stack, &last_node)) && (last_node._operators != '(') &&
-  while (!temp_stack->empty() && (last_node._operators != '(') && while_flag) {
+  // while ((!show(temp_stack, &last_node)) && (last_node._operator != '(') &&
+  while (!temp_stack->empty() && (last_node._operator != '(') && while_flag) {
     // pop(temp_stack, &last_node);
     // push(temp_polish, &last_node);
     temp_polish->push(temp_stack->top());
@@ -247,7 +239,7 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
       while_flag = false;
     }
   }
-  if (last_node._operators == '(') {
+  if (last_node._operator == '(') {
     // pop(temp_stack, &last_node);
     temp_stack->pop();
   }
@@ -255,6 +247,139 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
   if (temp_stack->empty()) {
     last_node = temp_stack->top();
   }
+}
+
+void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
+                               std::stack<s21::PolishNode>* temp_stack) {
+  // PolishNode last_node = {0}, temp_node = {0};
+  // pop(polish, &last_node);
+  PolishNode last_node = polish->top();
+  PolishNode temp_node(0);
+  polish->pop();
+
+  if (last_node._operator == '-') {
+    // pop(temp_stack, &temp_node);
+    temp_node = temp_stack->top();
+    temp_stack->pop();
+    temp_node._value *= -1;
+    // push(temp_stack, &temp_node);
+    temp_stack->push(temp_node);
+  } else if (last_node._operator != '+') {
+    // pop(temp_stack, &temp_node);
+    temp_node = temp_stack->top();
+    temp_stack->pop();
+    switch (last_node._math_foo) {
+      case PolishNode::MathFuncs::sin_foo:
+        temp_node._value = sinl(temp_node._value);
+        break;
+      case PolishNode::MathFuncs::cos_foo:
+        temp_node._value = cosl(temp_node._value);
+        break;
+      case PolishNode::MathFuncs::tan_foo:
+        temp_node._value = tanl(temp_node._value);
+        break;
+      case PolishNode::MathFuncs::asin_foo:
+        temp_node._value = asinl(temp_node._value);
+        break;
+      case PolishNode::MathFuncs::acos_foo:
+        temp_node._value = acosl(temp_node._value);
+        break;
+      case PolishNode::MathFuncs::atan_foo:
+        temp_node._value = atanl(temp_node._value);
+        break;
+      case PolishNode::MathFuncs::sqrt_foo:
+        temp_node._value = sqrtl(temp_node._value);
+        break;
+      case PolishNode::MathFuncs::ln_foo:
+        temp_node._value = logl(temp_node._value);
+        break;
+      case PolishNode::MathFuncs::log_foo:
+        temp_node._value = log10l(temp_node._value);
+        break;
+      default:
+        break;
+    }
+    // push(temp_stack, &temp_node);
+    temp_stack->push(temp_node);
+  }
+}
+
+void Model::binary_calculations(std::stack<s21::PolishNode>* polish,
+                                std::stack<s21::PolishNode>* temp_stack) {
+  // pop(temp_stack, &last_node);
+  PolishNode last_node = temp_stack->top();
+  temp_stack->pop();
+  long double second_num = get_number(&last_node);
+  // pop(temp_stack, &last_node);
+  last_node = temp_stack->top();
+  temp_stack->pop();
+  long double first_num = get_number(&last_node);
+  // pop(polish, &last_node);
+  last_node = polish->top();
+  temp_stack->pop();
+  char operatorr = last_node._operator;
+  // clear_node(&last_node);
+  last_node = PolishNode(0);
+  switch (operatorr) {
+    case '-':
+      last_node._value = first_num - second_num;
+      break;
+    case '+':
+      last_node._value = first_num + second_num;
+      break;
+    case '*':
+      last_node._value = first_num * second_num;
+      break;
+    case '/':
+      last_node._value = first_num / second_num;
+      break;
+    case '^':
+      last_node._value = powl(first_num, second_num);
+      break;
+    case '%':
+      last_node._value = fmodl(first_num, second_num);
+      break;
+    default:
+      break;
+  }
+  // push(temp_stack, &last_node);
+  temp_stack->push(last_node);
+}
+
+int Model::calculations(std::stack<s21::PolishNode>* polish,
+                        long double* result) {
+  // reverse_polish(polish);
+  std::stack<s21::PolishNode> temp_stack;
+  while (!polish->empty()) {
+    temp_stack.push(polish->top());
+    polish->pop();
+  }
+  polish = &temp_stack;
+  bool err_flag = false;
+  // std::stack<s21::PolishNode> temp_stack;
+  PolishNode last_node = {0};
+
+  // while (!show(polish, &last_node)) {
+  //   if (is_number(&last_node)) {
+  //     pop(polish, &last_node);
+  //     push(&temp_stack, &last_node);
+  while (!polish->empty()) {
+    if (last_node._math_foo == PolishNode::MathFuncs::not_foo &&
+        last_node._operator == '\0' && !last_node._is_unary &&
+        last_node._priority == PolishNode::Priority::zero) {
+      temp_stack.push(polish->top());
+      polish->pop();
+    } else if (last_node._is_unary) {
+      unary_calculations(polish, &temp_stack);
+    } else {
+      binary_calculations(polish, &temp_stack);
+    }
+  }
+  // show(&temp_stack, &last_node);
+  last_node = temp_stack.top();
+  *result = last_node._value;
+
+  return err_flag;
 }
 
 }  // namespace s21
