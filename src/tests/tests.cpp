@@ -42,6 +42,8 @@ TEST(test_polish_node, test_constructors_7) {
   ASSERT_EQ(p._value, p._value);
 }
 
+// TEST(test_stack, empty_stack) { stack<PolishNode> test; }
+
 TEST(test_model, validate_string_1) {
   string strings[] = {"1 + 1", "3 - 1", "0.5 * 6", "15/5", "(-(-3))"};
   Model m;

@@ -238,12 +238,15 @@ void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
   PolishNode temp_node(0);
   PolishNode last_node = polish->top();
   polish->pop();
-  temp_node = temp_stack->top();
-  temp_stack->pop();
 
   if (last_node._operator == '-') {
+    temp_node = temp_stack->top();
+    temp_stack->pop();
     temp_node._value *= -1;
+    temp_stack->push(temp_node);
   } else if (last_node._operator != '+') {
+    temp_node = temp_stack->top();
+    temp_stack->pop();
     std::cout << "val = " << temp_node._value
               << " unary == " << (int)last_node._math_foo << "\n";
     switch (last_node._math_foo) {
