@@ -8,7 +8,7 @@ view::view(QWidget *parent) : QMainWindow(parent), ui(new Ui::view) {
   setFixedSize(width(), height());
   view::initial_graph();
 
-  ui->input_field_x->setPlaceholderText("Input X, now X=0");
+  ui->input_field_x->setPlaceholderText("enter x, default: 0");
   QDoubleValidator *validator = new QDoubleValidator(this);
   validator->setNotation(QDoubleValidator::StandardNotation);
   ui->input_field_x->setValidator(validator);

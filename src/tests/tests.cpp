@@ -42,8 +42,6 @@ TEST(test_polish_node, test_constructors_7) {
   ASSERT_EQ(p._value, p._value);
 }
 
-// TEST(test_stack, empty_stack) { stack<PolishNode> test; }
-
 TEST(test_model, validate_string) {
   string strings[] = {"1 + 1", "3 - 1", "0.5 * 6", "15/5", "(-(-3))"};
   Model m;
@@ -157,8 +155,8 @@ TEST(test_model, calculate_unary_plus_minus) {
 }
 
 TEST(test_model, calculate_cosine) {
-  string strings[] = {"cos(0)", "cos(3.14159265/2)", "cos(3.14159265)",
-                      "cos(3*3.14159265/2)"};
+  string strings[] = {"cos(0)", "cos((3.14159265/2))", "cos(3.14159265)",
+                      "cos((3*3.14159265/2))"};
   long double expected[] = {1, 0, -1, 0};
   Model m;
   long double res;
@@ -169,8 +167,8 @@ TEST(test_model, calculate_cosine) {
 }
 
 TEST(test_model, calculate_sine) {
-  string strings[] = {"sin(0)", "sin(3.14159265/2)", "sin(3.14159265)",
-                      "sin(3*3.14159265/2)"};
+  string strings[] = {"sin(0)", "sin((3.14159265/2))", "sin(3.14159265)",
+                      "sin((3*3.14159265/2))"};
   long double expected[] = {0, 1, 0, -1};
   Model m;
   long double res;
@@ -181,8 +179,8 @@ TEST(test_model, calculate_sine) {
 }
 
 TEST(test_model, calculate_tangent) {
-  string strings[] = {"tan(0)", "tan(3.14159265/4)", "tan(3.14159265)",
-                      "tan(3*3.14159265/4)"};
+  string strings[] = {"tan(0)", "tan((3.14159265/4))", "tan(3.14159265)",
+                      "tan((3*3.14159265/4))"};
   long double expected[] = {0, 1, 0, -1};
   Model m;
   long double res;
@@ -295,9 +293,9 @@ TEST(test_controller, test_api_to_calculate_true) {
       {"(1 + 2) * 3 - 13", (1 + 2) * 3 - 13},
       {"1 + 2 - 3 * 13 + 4 / 2", 1 + 2 - 3 * 13 + 4 / 2},
       {"(1 + 2) * (3 - 13) / 2", (1 + 2) * (3 - 13) / 2},
-      {"sqrt(16) + log(1) * log10(10) / sin(3.14159265 / 2)",
+      {"sqrt(16) + log(1) * log(10) / sin((3.14159265 / 2))",
        sqrt(16) + log(1) * log10(10) / sin(3.14159265 / 2)},
-      {"cos(0) + sin(3.14159265 / 2) - tan(0)",
+      {"cos(0) + sin((3.14159265 / 2)) - tan(0)",
        cos(0) + sin(3.14159265 / 2) - tan(0)},
       {"asin(1) + acos(0) - atan(1)", asin(1) + acos(0) - atan(1)},
   };
