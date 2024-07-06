@@ -64,7 +64,7 @@ int Model::calculate_str(std::string input_str, long double* result) {
   long double temp_res = 0;
   int flag = 0;
   if (!(validate_string(input_str)) &&
-      !(converting_to_polish(input_str, &polish)) &&
+      !(converting_to_polish("(" + input_str + ")", &polish)) &&
       !(calcultaion_from_polish(&polish, &temp_res))) {
     *result = temp_res;
   } else {
@@ -141,7 +141,6 @@ size_t Model::parse_brackets_funcs(std::string str, size_t i,
       temp_node->_math_foo = MathFuncs::sin_foo;
     } else if (str[i + 1] == 'q' && str[i + 4] == '(') {
       temp_node->_math_foo = MathFuncs::sqrt_foo;
-
       len_str_foo = 5;
     }
   } else if (str[i] == 'c' && str[i + 3] == '(') {
@@ -189,7 +188,6 @@ void Model::parse_operators(std::string str, size_t i, PolishNode* temp_node,
     temp_node->_priority = Priority::third;
   } else if (str[i] == '+' || str[i] == '-') {
     temp_node->_priority = Priority::first;
-
   } else if (str[i] == '^') {
     temp_node->_priority = Priority::third;
   } else {
@@ -211,11 +209,11 @@ void Model::parse_operators(std::string str, size_t i, PolishNode* temp_node,
 
 void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
                                  std::stack<s21::PolishNode>* temp_stack) {
+  bool while_flag = true;
   PolishNode last_node;
   if (!temp_stack->empty()) {
     last_node = temp_stack->top();
   }
-  bool while_flag = true;
 
   while (!temp_stack->empty() && (last_node._operator != '(') && while_flag) {
     temp_polish->push(temp_stack->top());
@@ -223,13 +221,12 @@ void Model::parse_close_brackets(std::stack<s21::PolishNode>* temp_polish,
     if (last_node._math_foo != MathFuncs::not_foo) {
       while_flag = false;
     }
+    if (!temp_stack->empty()) {
+      last_node = temp_stack->top();
+    }
   }
   if (last_node._operator == '(') {
     temp_stack->pop();
-  }
-
-  if (!temp_stack->empty()) {
-    last_node = temp_stack->top();
   }
 }
 
@@ -247,8 +244,6 @@ void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
   } else if (last_node._operator != '+') {
     temp_node = temp_stack->top();
     temp_stack->pop();
-    std::cout << "val = " << temp_node._value
-              << " unary == " << (int)last_node._math_foo << "\n";
     switch (last_node._math_foo) {
       case MathFuncs::sin_foo:
         temp_node._value = sinl(temp_node._value);
@@ -281,8 +276,6 @@ void Model::unary_calculations(std::stack<s21::PolishNode>* polish,
         break;
     }
     temp_stack->push(temp_node);
-    std::cout << "val = " << temp_node._value
-              << " unary == " << (int)last_node._math_foo << " end \n";
   }
 }
 
@@ -297,7 +290,6 @@ void Model::binary_calculations(std::stack<s21::PolishNode>* polish,
   last_node = polish->top();
   polish->pop();
   char operatorr = last_node._operator;
-  std::cout << first_num << " " << operatorr << " " << second_num << "\n";
   last_node = PolishNode(0);
   switch (operatorr) {
     case '-':

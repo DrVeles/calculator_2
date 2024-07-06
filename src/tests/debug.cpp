@@ -7,16 +7,7 @@ int main() {
   long double res;
   Model m;
 
-  string str = "(-3)";
-  m.calculate_str(str, &res);
-  cout << "str = " << str << " res = " << res << "\n\n";
-  str = "(-(-3))";
-  m.calculate_str(str, &res);
-  cout << "str = " << str << " res = " << res << "\n\n";
-  str = "(tan(3.14))";  //-0.001592654936
-  m.calculate_str(str, &res);
-  cout << "str = " << str << " res = " << res << "\n\n";
-  str = "(tan(-3.14))";  // 0.001592654936
+  string str = "1 - (1 + 2) * 2";
   m.calculate_str(str, &res);
   cout << "str = " << str << " res = " << res << "\n\n";
 

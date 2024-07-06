@@ -44,11 +44,20 @@ TEST(test_polish_node, test_constructors_7) {
 
 // TEST(test_stack, empty_stack) { stack<PolishNode> test; }
 
-TEST(test_model, validate_string_1) {
+TEST(test_model, validate_string) {
   string strings[] = {"1 + 1", "3 - 1", "0.5 * 6", "15/5", "(-(-3))"};
   Model m;
   for (auto str : strings) {
     ASSERT_EQ(m.validate_string(str), 0);
+  }
+}
+
+TEST(test_model, calculate_str_2) {
+  string strings[] = {"1 + 1 +", "3 - 1)", "(0.5 * 6", "15/5..5"};
+  Model m;
+  long double res;
+  for (auto str : strings) {
+    ASSERT_EQ(m.calculate_str(str, &res), 1);
   }
 }
 
@@ -61,7 +70,7 @@ TEST(test_model, validate_string_2) {
 }
 
 TEST(test_model, calculate_str_1) {
-  string strings[] = {"1 + 2", "3 - 1", "0.5 * 6", "15/5"};
+  string strings[] = {"1 + 2", "4 - 1", "0.5 * 6", "15/5"};
   Model m;
   long double res;
   for (auto str : strings) {
@@ -104,7 +113,7 @@ TEST(test_model, calculate_multiplication) {
 }
 
 TEST(test_model, calculate_division) {
-  string strings[] = {"6 / 2", "9 / 3", "7.5 / 0.5", "10 / -2"};
+  string strings[] = {"6 / 2", "9 / 3", "7.5 / 0.5", "10 / (-2)"};
   long double expected[] = {3, 3, 15, -5};
   Model m;
   long double res;
@@ -115,7 +124,7 @@ TEST(test_model, calculate_division) {
 }
 
 TEST(test_model, calculate_power) {
-  string strings[] = {"2 ^ 3", "4 ^ 0.5", "5 ^ 2", "2 ^ -1"};
+  string strings[] = {"2 ^ 3", "4 ^ 0.5", "5 ^ 2", "2 ^ (-1)"};
   long double expected[] = {8, 2, 25, 0.5};
   Model m;
   long double res;
@@ -144,15 +153,6 @@ TEST(test_model, calculate_unary_plus_minus) {
   for (int i = 0; i < 4; ++i) {
     m.calculate_str(strings[i], &res);
     ASSERT_EQ(res, expected[i]);
-  }
-}
-
-TEST(test_model, calculate_str_2) {
-  string strings[] = {"1 + 1 +", "3 - 1)", "(0.5 * 6", "15/5..5"};
-  Model m;
-  long double res;
-  for (auto str : strings) {
-    ASSERT_EQ(m.calculate_str(str, &res), 1);
   }
 }
 
