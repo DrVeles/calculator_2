@@ -6,6 +6,8 @@ build/
 .vscode/
 *.gcda
 *.gcno
+*.info
+report/
 
 # Prerequisites
 *.d

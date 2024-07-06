@@ -16,26 +16,36 @@ install: uninstall
 uninstall: clean
 	-@rm -rf build/ ../Calculator_1.app/
 	@echo "======================================"
-	@echo "===========> UNINSATLLED <============"
+	@echo "===========> UNINSTALLED <============"
 	@echo "======================================"
 
 clean: 
-	-@rm -rf *.out *.gcno *.gcda *.dSYM/ *.o
+	-@rm -rf *.out *.gcno *.gcda *.dSYM/ *.o ../*.tar ./report *info
 
 dvi:
-	$(OPEN_COMAND) ../README.md
+	open ./../README.md
 
 dist: clean
-	@mkdir SmartCalc_v2.0
-	@mkdir SmartCalc_v2.0/src
-	@cp -r front functions tests Makefile s21_calc_controller.* SmartCalc_v2.0/src/
+	@mkdir -p SmartCalc_v2.0
+	@mkdir -p SmartCalc_v2.0/src
+	@cp -r ./* SmartCalc_v2.0/src
 	@cp ../README.md SmartCalc_v2.0/
 	@tar -cf SmartCalc_v2.0.tar SmartCalc_v2.0 
 	@rm -rf SmartCalc_v2.0/
+	@mv ./SmartCalc_v2.0.tar ../. 
+	@echo "======================================"
+	@echo "===========> DIST READY <============="
+	@echo "======================================"
 
 test: clean google_format
 	$(CC) $(CC_FLAGS) ./tests/tests.cpp ./model/model.cpp -o a.out $(CC_TEST_FLAGS)
 	./a.out
+
+gcov_report: test
+	@lcov -t "Tests" -o tests.info -c -d . --ignore-errors inconsistent >/dev/null 2>&1
+	@lcov -e tests.info '*.cpp' -o tests.info >/dev/null 2>&1
+	@genhtml -o report tests.info >/dev/null 2>&1
+	open ./report/index.html
 
 leaks: test
 	CK_FORK=no leaks -atExit -q -- ./a.out
